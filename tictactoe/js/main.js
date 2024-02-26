@@ -14,6 +14,7 @@ const winningCombos = [
 let board;
 let turn = 'X';
 let win;
+let winner = null;
 
 /*----- cached element references -----*/
 const squares = Array.from(document.querySelectorAll('#board div'));
@@ -26,7 +27,9 @@ document.getElementById('reset-button').addEventListener('click', init);
 
 /*----- functions -----*/
 function init(){
+    winner = null;
     board = [
+        '','','',
         '','','',
         '','',''
     ]
@@ -36,32 +39,45 @@ function render() {
     board.forEach(function(mark, index){
         squares[index].textContent = mark;
     });
+   
     messages.textContent = win === 'T' ? `That's a tie, queen!` : win ? `${win} wins the game!` : `It's ${turn}'s turn!`;
+
     
-    console.log(win)
+    
 }
 function handleTurn(event) {
-    let idx = squares.findIndex(function(square) {
-    return square === event.target;
-    });
-    
-    board[idx] = turn;
+    if (winner === null){
+        let idx = squares.findIndex(function(square) {
+        return square === event.target;
+        });
+        
+        board[idx] = turn;
 
-    turn = turn === 'X' ? 'O':'X'
-    // check your console logs to make sure it's working!
-    win = getWinner();
-    console.log(win);
-    render();
+        turn = turn === 'X' ? 'O':'X'
+        // check your console logs to make sure it's working!
+        win = getWinner();
+        win === 'T' ? null : win ? celebrateWin() : null;
+
+        render();
+    }
 };
 
 function getWinner() {
-    let winner = null;
+   
     winningCombos.forEach(function(combo, index) {
         if (board[combo[0]] && board[combo[0]] === board[combo[1]] && board[combo[0]] === board[combo[2]]) winner = board[combo[0]];
       });
 
+      
       return winner ? winner : board.includes('') ? null : 'T';
 };
 
+function celebrateWin() {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 }
+    });
+  }
 
 init();
