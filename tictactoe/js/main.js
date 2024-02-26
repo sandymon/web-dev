@@ -57,7 +57,7 @@ function handleTurn(event) {
         });
         
 
-        if(!movesMap.has(idx)){
+        if(!movesMap.has(idx)){ // check if square is taken
            
             board[idx] = turn;
             movesMap.set(idx, turn);
@@ -66,18 +66,18 @@ function handleTurn(event) {
             turn = turn === 'X' ? 'O':'X'
             // check your console logs to make sure it's working!
             win = getWinner();
-            win === 'T' ? null : win ? celebrateWin() : null;
+            win === 'T' ? null : win ? celebrateWin() : null; // play conffeti animation when someone wins.
 
-            document.getElementById("no-move").style.display= "None"
+            document.getElementById("no-move").style.display= "None" //hide square already taken error
             render();
         }else{
-            document.getElementById("no-move").style.display= "block"
+            document.getElementById("no-move").style.display= "block"//unhide square taken error
         }
        
     }
 };
 
-function getWinner() {
+function getWinner() { // get the winner of the match or tie.
    
     winningCombos.forEach(function(combo, index) {
         if (board[combo[0]] && board[combo[0]] === board[combo[1]] && board[combo[0]] === board[combo[2]]) winner = board[combo[0]];
@@ -87,7 +87,7 @@ function getWinner() {
       return winner ? winner : board.includes('') ? null : 'T';
 };
 
-function celebrateWin() {
+function celebrateWin() { // add confetti animation
     confetti({
       particleCount: 100,
       spread: 70,
