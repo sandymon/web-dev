@@ -15,6 +15,7 @@ let board;
 let turn = 'X';
 let win;
 let winner = null;
+let movesMap = new Map();
 
 /*----- cached element references -----*/
 const squares = Array.from(document.querySelectorAll('#board div'));
@@ -33,6 +34,7 @@ function init(){
         '','','',
         '','',''
     ]
+    movesMap.clear()
     render();
 };
 function render() {
@@ -47,18 +49,31 @@ function render() {
 }
 function handleTurn(event) {
     if (winner === null){
+
+        
+
         let idx = squares.findIndex(function(square) {
-        return square === event.target;
+            return square === event.target;
         });
         
-        board[idx] = turn;
 
-        turn = turn === 'X' ? 'O':'X'
-        // check your console logs to make sure it's working!
-        win = getWinner();
-        win === 'T' ? null : win ? celebrateWin() : null;
+        if(!movesMap.has(idx)){
+           
+            board[idx] = turn;
+            movesMap.set(idx, turn);
+    
+    
+            turn = turn === 'X' ? 'O':'X'
+            // check your console logs to make sure it's working!
+            win = getWinner();
+            win === 'T' ? null : win ? celebrateWin() : null;
 
-        render();
+            document.getElementById("no-move").style.display= "None"
+            render();
+        }else{
+            document.getElementById("no-move").style.display= "block"
+        }
+       
     }
 };
 

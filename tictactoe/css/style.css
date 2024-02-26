@@ -12,6 +12,15 @@ color: white;
 h1{
     color: white;
 }
+#no-move{
+    
+    color: white;
+    text-align: center;
+}
+
+.hidden{
+    display:none;
+}
 .flex-container {
 /* In order to use flex-box we need to first set our display property */
 display: flex;
