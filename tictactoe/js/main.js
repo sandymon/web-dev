@@ -16,18 +16,40 @@ let turn = 'X';
 let win;
 let winner = null;
 let movesMap = new Map();
+let moveReady = true;
 
 /*----- cached element references -----*/
 const squares = Array.from(document.querySelectorAll('#board div'));
-const messages = document.querySelector('h2');
+var model = document.getElementById('choose-mark-model');
+const messages = document.getElementById('turn');
 
 /*----- event listeners -----*/
 document.getElementById('board').addEventListener('click', handleTurn);
 document.getElementById('reset-button').addEventListener('click', init);
 
+document.getElementById('chooseX').onclick = function() {
+    turn = "X";
+    init();
+    // Set the player's mark to X
+    // Your code to set the player's mark as X
+    model.style.display = "none";
+  };
+
+  // When the user clicks on button O, choose O
+  document.getElementById('chooseO').onclick = function() {
+
+    turn = "O";
+    init();
+    // Set the player's mark to O
+    // Your code to set the player's mark as O
+    model.style.display = "none";
+    
+  };
+
 
 /*----- functions -----*/
 function init(){
+    model.style.display = "block";
     winner = null;
     board = [
         '','','',
@@ -36,6 +58,7 @@ function init(){
     ]
     movesMap.clear()
     render();
+
 };
 function render() {
     board.forEach(function(mark, index){
@@ -49,34 +72,47 @@ function render() {
 }
 function handleTurn(event) {
     if (winner === null){
-
-        
-
         let idx = squares.findIndex(function(square) {
             return square === event.target;
         });
         
+        checkMove(idx);
 
-        if(!movesMap.has(idx)){ // check if square is taken
-           
-            board[idx] = turn;
-            movesMap.set(idx, turn);
+        // computer turn
     
-    
-            turn = turn === 'X' ? 'O':'X'
-            // check your console logs to make sure it's working!
-            win = getWinner();
-            win === 'T' ? null : win ? celebrateWin() : null; // play conffeti animation when someone wins.
-
-            document.getElementById("no-move").style.display= "None" //hide square already taken error
-            render();
-        }else{
-            document.getElementById("no-move").style.display= "block"//unhide square taken error
+    if(win === null){
+        moveReady = true;
+        while(moveReady){
+            //console.log("Computer playing....");
+            var randomMove = Math.floor(Math.random() * 8);
+            console.log(randomMove);
+            checkMove(randomMove);
         }
+    }
        
     }
 };
 
+
+function checkMove(idx){
+    if(!movesMap.has(idx)){ // check if square is taken
+        console.log("Cheking index");
+        board[idx] = turn;
+        movesMap.set(idx, turn);
+
+
+        turn = turn === 'X' ? 'O':'X'
+        win = getWinner();
+        win === 'T' ? null : win ? celebrateWin() : null; // play conffeti animation when someone wins.
+
+        document.getElementById("no-move").style.display= "None" //hide square already taken error
+        moveReady = false;
+
+        render();
+    }else{
+        document.getElementById("no-move").style.display= "block"//unhide square taken error
+    }
+}
 function getWinner() { // get the winner of the match or tie.
    
     winningCombos.forEach(function(combo, index) {
