@@ -11,15 +11,16 @@ const winningCombos = [
     ];
 
 /*----- app's state (variables) -----*/
-let board;
+let board; 
 let turn = 'X';
 let win;
 let winner = null;
-let movesMap = new Map();
+let movesMap = new Map();//hashmap
 let moveReady = true;
+let compturn = "X"
 
 /*----- cached element references -----*/
-const squares = Array.from(document.querySelectorAll('#board div'));
+const squares = Array.from(document.querySelectorAll('#board div'));//gets all divs in #board into array
 var model = document.getElementById('choose-mark-model');
 const messages = document.getElementById('turn');
 
@@ -29,6 +30,7 @@ document.getElementById('reset-button').addEventListener('click', init);
 
 document.getElementById('chooseX').onclick = function() {
     turn = "X";
+    compturn = "O"
     init();
     // Set the player's mark to X
     // Your code to set the player's mark as X
@@ -39,6 +41,7 @@ document.getElementById('chooseX').onclick = function() {
   document.getElementById('chooseO').onclick = function() {
 
     turn = "O";
+    compturn = "X"
     init();
     // Set the player's mark to O
     // Your code to set the player's mark as O
@@ -60,9 +63,10 @@ function init(){
     render();
 
 };
+
 function render() {
     board.forEach(function(mark, index){
-        squares[index].textContent = mark;
+        squares[index].textContent = mark;// store mark into square
     });
    
     messages.textContent = win === 'T' ? `That's a tie, queen!` : win ? `${win} wins the game!` : `It's ${turn}'s turn!`;
@@ -79,8 +83,10 @@ function handleTurn(event) {
         checkMove(idx);
 
         // computer turn
+       
     
-    if(win === null){
+    if(compturn === turn && win === null){
+        console.log("computer plays");
         moveReady = true;
         while(moveReady){
             //console.log("Computer playing....");
@@ -98,7 +104,7 @@ function checkMove(idx){
     if(!movesMap.has(idx)){ // check if square is taken
         console.log("Cheking index");
         board[idx] = turn;
-        movesMap.set(idx, turn);
+        movesMap.set(idx, turn);// makes move invalid
 
 
         turn = turn === 'X' ? 'O':'X'
@@ -111,6 +117,7 @@ function checkMove(idx){
         render();
     }else{
         document.getElementById("no-move").style.display= "block"//unhide square taken error
+        console.log("cant play");
     }
 }
 function getWinner() { // get the winner of the match or tie.

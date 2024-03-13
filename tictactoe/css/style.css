@@ -125,4 +125,13 @@ transition: visibility 0s, opacity 0.2s linear;
     text-decoration: none;
     cursor: pointer;
   }
+
+  @media (max-width: 768px) { 
+    
+
+    .model-content{
+
+      color:  black;
+    }
+  }
   

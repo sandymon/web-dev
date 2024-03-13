@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Favorite Music Artist</title>
+    <link rel="stylesheet" href="styles.css">
+    <script>
+      // console.log() = How we print messages in Javascript
+      console.log("Hello from the html file!")
+
+      function validateForm() {
+        // get the value of the form input
+        let inputValue = document.getElementById("contact-input").value
+        console.log(inputValue)
+
+        if (inputValue == ""){
+          alert("You need to fill out your email!")
+        } else {
+          alert("Thanks for signing up " + inputValue + "!")
+        }
+
+      }
+
+    </script>
+  </head>
+  <body>
+      <nav>
+        <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="hits.html">Hits</a></li>
+        <li><a href="join.html">Join</a></li>
+      </ul>
+    </nav>
+          <h1 onclick="validateForm()">Welcome to the random fan club</h1>
+          <img src="https://images.squarespace-cdn.com/content/v1/5e10bdc20efb8f0d169f85f9/09943d85-b8c7-4d64-af31-1a27d1b76698/arrow.png" alt="Image of the artist or show" class="image">
+          <p class="description">This is a description of the artist or show.</p>
+          <p id="join">Join the fan club by entering your email address below:</p>
+          <form name="contact">
+            <input id="contact-input" type="email" name="email" placeholder="Enter your email address">
+            <button type="submit" onclick="validateForm()">Join</button>
+          </form>
+  </body>
+</html>
